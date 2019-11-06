@@ -35,18 +35,21 @@
 		$i++;
 	}
 
-	sort($users);
 
-	echo '<table>';
-	echo '<tr>';
-	echo '<td>Id</td> <td>Username</td> <td>Email</td> <td>Status</td>';
-	foreach ($users as $people) {
-		echo $people.'<br/>';
-	}
-	echo '</table>';
 
 ?>
 <body>
+	<?php
+		sort($users);
+
+		echo '<table>';
+		echo '<tr>';
+		echo '<td>Id</td> <td>Username</td> <td>Email</td> <td>Status</td>';
+		foreach ($users as $people) {
+			echo $people.'<br/>';
+		}
+		echo '</table>';
+	?>
 
 </body>
 </html>
