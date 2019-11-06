@@ -35,13 +35,15 @@
 		$i++;
 	}
 
-	sort($user);
+	sort($users);
 
-	echo '<p>';
+	echo '<table>';
+	echo '<tr>';
+	echo '<td>Id</td> <td>Username</td> <td>Email</td> <td>Status</td>';
 	foreach ($users as $people) {
-		echo $user.'<br/>';
+		echo $people.'<br/>';
 	}
-	echo '</p>';
+	echo '</table>';
 
 ?>
 <body>
