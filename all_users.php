@@ -26,28 +26,39 @@
 	}
 
 	$users = array();
+	$id = array();
+	$email = array();
+	$status = array();
 
-	$stmt = $pdo->query('SELECT username FROM users');
+	$stmt = $pdo->query('SELECT * FROM users ORDER BY username');
 
-	$i = 0;
 	while ($row = $stmt->fetch()) {
 		array_push($users, $row['username']);
-		$i++;
+		array_push($id, $row['id']);
+		array_push($email, $row['email']);
 	}
 
+	$stmt = $pdo->query('SELECT name FROM status JOIN users ON status_id = status.id ORDER BY username');
 
+	while ($row = $stmt->fetch()) {
+		array_push($status, $row['name']);
+	}
 
 ?>
+
 <body>
 	<?php
-		sort($users);
 
 		echo '<table>';
 		echo '<tr>';
 		echo '<td>Id</td> <td>Username</td> <td>Email</td> <td>Status</td>';
-		foreach ($users as $people) {
-			echo $people.'<br/>';
+		for ($i=0; $i < count($users); $i++) { 
+			echo '<tr>';
+			echo '<td>'.$id[$i].'</td> <td>'.$users[$i].'</td> <td>'.$email[$i].'</td> <td>'.$status[$i].'</td>';
+			echo '</tr>';
 		}
+		
+		echo "</tr>";
 		echo '</table>';
 	?>
 
