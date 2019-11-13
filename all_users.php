@@ -3,6 +3,18 @@
 <head>
 	<title>Users</title>
 	<meta charset="utf-8">
+	<style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+
 </head>
 <?php
 	$host = 'localhost';
@@ -44,19 +56,35 @@
 		array_push($status, $row['name']);
 	}
 
+	// $user_id = array();
+	// Correction : $stmt = $pdo->query('select users.id as user_id, username, email, s.name as status from users join status s on users.status_id = s.id');
 ?>
 
 <body>
-	<?php
+	<table>
+		<tr>
+			<th>Id</th>
+			<th>Username</th>
+			<th>Email</th>
+			<th>Status</th>
 
-		echo '<table>';
-		echo '<tr>';
-		echo '<td>Id</td> <td>Username</td> <td>Email</td> <td>Status</td>';
+	<?php
 		for ($i=0; $i < count($users); $i++) { 
 			echo '<tr>';
 			echo '<td>'.$id[$i].'</td> <td>'.$users[$i].'</td> <td>'.$email[$i].'</td> <td>'.$status[$i].'</td>';
 			echo '</tr>';
 		}
+
+		/* Correction
+		* <?php while ($row = $stmt->fetch()) { ?>
+		*	<tr>
+		*		<td><?php echo $row['user_id']?></td>
+		*		<td><?php echo $row['username']?></td>
+		*		<td><?php echo $row['email']?></td>
+		*		<td><?php echo $row['status']?></td>
+		*	</tr>
+		* <?php } ?>
+		*/
 		
 		echo "</tr>";
 		echo '</table>';
