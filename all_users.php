@@ -18,6 +18,7 @@
 				PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
 				PDO::ATTR_EMULATE_PREPARES   => false,
 			];
+
 			try {
 				 $pdo = new PDO($dsn, $user, $pass, $options);
 			} catch (PDOException $e) {
@@ -46,17 +47,15 @@
 		</tr>
 		<?php	
 			if (isset($_POST['start_letter']) && isset($_POST['account_status'])) {
-				if (strlen($_POST['start_letter']) == 1) {
-					$start_letter = $_POST['start_letter'];
-				} else {
-					$start_letter = "";
-				}
-				if (strcmp($_POST['account_status'], "active") == 0) {
-					$account_status = 2;
-				} else {
-					$account_status = 1;
-				}
-				$stmt = $pdo->query("SELECT users.id, username, email, name FROM users JOIN status ON status.id = users.status_id WHERE status_id = $account_status AND username LIKE '$start_letter%' ORDER BY username");
+
+				$start_letter = strlen($_POST['start_letter']) == 1 ? $_POST['start_letter'].'%' : "%";
+				
+				$account_status = (strcmp($_POST['account_status'], "active") == 0) ? $account_status = 2 : $account_status = 1;
+
+
+
+				$stmt = $pdo->prepare("SELECT users.id, username, email, name FROM users JOIN status ON status.id = users.status_id WHERE status_id = :account_status AND username LIKE :start_letter ORDER BY username");
+				$stmt->execute(['account_status' => $account_status, 'start_letter' => $start_letter]);
 			} else {
 				$stmt = $pdo->query("SELECT users.id, username, email, name FROM users JOIN status ON status.id = users.status_id ORDER BY username");
 			}
