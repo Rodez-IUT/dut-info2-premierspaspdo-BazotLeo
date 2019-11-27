@@ -51,8 +51,7 @@
 
 				$start_letter = strlen($_POST['start_letter']) == 1 ? $_POST['start_letter'].'%' : "%";
 				
-				$account_status = (strcmp($_POST['account_status'], "active") == 0) ? 2 : (strcmp($_POST['account_status'], "waiting") == 0) ? 1 : 3;
-
+				$account_status = (strcmp($_POST['account_status'], "active") == 0) ? 2 : (strcmp($_POST['account_status'], "waiting") == 0 ? 1 : 3);
 
 
 				$stmt = $pdo->prepare("SELECT users.id, username, email, name FROM users JOIN status ON status.id = users.status_id WHERE status_id = :account_status AND username LIKE :start_letter ORDER BY username");
@@ -60,12 +59,14 @@
 			} else {
 				$stmt = $pdo->query("SELECT users.id, username, email, name FROM users JOIN status ON status.id = users.status_id ORDER BY username");
 			}
+
 			while ($row = $stmt->fetch()) {
 				echo '<tr>';
 				echo '<td>' . $row['id'] . '</td>';
 				echo '<td>' . $row['username'] . '</td>';
 				echo '<td>' . $row['email'] . '</td>';
-				echo '<td>' . $row['name'] . '</td>';
+				echo '<td'. ($account_status != 3) colspan="2" ? "":; .'>' . $row['name'] . '</td>';
+				echo ($account_status == 3)?'<td><a':;; //TODO 5.2
 				echo '</tr>';
 			}
 		?>
