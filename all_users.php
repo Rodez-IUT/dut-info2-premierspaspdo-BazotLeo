@@ -34,6 +34,7 @@
 			<select name="account_status">
 				<option value="active">Active account</option>
 				<option value="waiting">Waiting for account validation</option>
+				<option value="todelete">Waiting for account deletion</option>
 			</select>
 			<input type="submit" value="OK" />
 		</form>
@@ -50,7 +51,7 @@
 
 				$start_letter = strlen($_POST['start_letter']) == 1 ? $_POST['start_letter'].'%' : "%";
 				
-				$account_status = (strcmp($_POST['account_status'], "active") == 0) ? $account_status = 2 : $account_status = 1;
+				$account_status = (strcmp($_POST['account_status'], "active") == 0) ? 2 : (strcmp($_POST['account_status'], "waiting") == 0) ? 1 : 3;
 
 
 
